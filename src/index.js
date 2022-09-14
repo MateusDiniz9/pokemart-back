@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import db from './db/db.js';
+import userRouter from "./routes/userRouter.js"
 
 dotenv.config();
 
@@ -9,7 +10,7 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-app.use(userRouter);
+server.use(userRouter);
 
 async function checkSessions() {
   const timeAllowed = 7.2e+6; //2 hours
