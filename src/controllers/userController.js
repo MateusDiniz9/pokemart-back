@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { v4 as uuid } from "uuid";
 
 export async function createToken(req, res) {
-    const { email, password } = req.locals;
+    const { email, password } = res.locals.login;
 
     try {
         const user = await db.collection('users').findOne({ email });
