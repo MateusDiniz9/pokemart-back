@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import db from './db/db.js';
 import userRouter from "./routes/userRouter.js"
+import signUpRoute from "./routes/signUpRoute.js";
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
+server.use(signUpRoute);
 server.use(userRouter);
 
 async function checkSessions() {
@@ -31,6 +33,8 @@ async function checkSessions() {
 }
 
 setInterval(checkSessions, 60000); //checks every minute
+
+
 
 server.listen(process.env.PORT_API, () => {
   console.log(`Listening on port ${process.env.PORT_API}`);
