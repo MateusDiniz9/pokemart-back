@@ -1,5 +1,5 @@
 import express from "express";
-import { confirmCheckout, checkoutInfo } from "../controllers/saleController";
+import { confirmCheckout, checkoutInfo } from "../controllers/saleController.js";
 
 const saleRouter = express.Router();
 saleRouter.post(
@@ -7,7 +7,7 @@ saleRouter.post(
   confirmCheckout
 )
 saleRouter.get(
-  "/checkout/:saleId",
+  `/checkout/:saleId`,
   checkoutInfo
 );
 
