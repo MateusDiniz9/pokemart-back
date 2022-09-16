@@ -33,6 +33,6 @@ async function checkSessions() {
 
 setInterval(checkSessions, 60000); //checks every minute
 
-server.listen(process.env.PORT_API, () => {
-  console.log(`Listening on port ${process.env.PORT_API}`);
+server.listen(process.env.PORT, () => {
+  console.log(`Listening on port ${process.env.PORT}`);
 });
