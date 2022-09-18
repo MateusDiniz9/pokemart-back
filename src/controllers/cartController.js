@@ -21,23 +21,24 @@ export async function getCart(req, res) {
 }
 
 export async function changeProductQuantity(req, res) {
-    const { products }= req.body;
-    const { authorization } = req.headers;
-    const token = authorization?.replace('Bearer ', '');
+  const products = req.body;
+  const { authorization, userid } = req.headers;
+  const token = authorization?.replace('Bearer ', '');
 
-    const loggedIn = await db.collection('sessions').findOne({ token });
-    if (loggedIn === null) {return res.status(422).send('Você precisa estar logado para fazer movimentações!')};
+  const loggedIn = await db.collection('sessions').findOne({ token });
+  if (loggedIn === null) {return res.status(422).send('Você precisa estar logado para fazer movimentações!')};
 
-    try {
-        await db.collection('cart').deleteOne({ userId: authorization.userid});
-        await db.collection('cart').insertOne({
-            userId: userid,
-            products
-        });
-        const cart = await db.collection('cart').findOne({ userId: userid });
-        res.status(201).send(cart);
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(500);
-    }
+  try {
+      await db.collection('cart').deleteOne({ userId: userid });
+      await db.collection('cart').insertOne({
+          userId: userid,
+          products
+      });
+      const cart = await db.collection('cart').findOne({ userId: userid });
+      console.log(cart)
+      res.status(201).send(cart);
+  } catch (error) {
+      console.error(error);
+      res.sendStatus(500);
+  }
 }
