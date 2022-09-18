@@ -21,9 +21,9 @@ export async function confirmCheckout(req, res) {
         date: dayjs().format('DD/MM/YYYY')
       }, (err, result) => {
         if (err) 
-          return err;
+          return res.status(500).send(console.error(err));
         else 
-          return result.insertedId.toString();
+          return res.status(201).send(result.insertedId.toString());
       });
     } catch (error) {
       console.error(error);

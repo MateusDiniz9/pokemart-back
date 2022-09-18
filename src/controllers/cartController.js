@@ -35,7 +35,6 @@ export async function changeProductQuantity(req, res) {
           products
       });
       const cart = await db.collection('cart').findOne({ userId: userid });
-      console.log(cart)
       res.status(201).send(cart);
   } catch (error) {
       console.error(error);
