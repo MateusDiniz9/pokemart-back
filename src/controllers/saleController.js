@@ -11,10 +11,10 @@ export async function confirmCheckout(req, res) {
     if (registeredUser === null) {return res.status(422).send('Você precisa estar cadastrado para finalizar a sua compra!')};
 
     const loggedIn = await db.collection('sessions').findOne({ token });
-    if (loggedIn === null) {return res.status(422).send('Você precisa estar logado para conferir a sua compra!')};
+    if (loggedIn === null) {return res.status(422).send('Você precisa estar logado para concluir a sua compra!')};
 
     try {
-      const sale = await db.collection("sales").insertOne({
+      await db.collection("sales").insertOne({
         userid,
         paymentMethod,
         products,
@@ -41,7 +41,7 @@ export async function checkoutInfo(req, res) {
 
     try {
       const purchaseInfo = await db.collection('sales').findOne({ _id: ObjectId(saleId) });
-      if (purchaseInfo.userId !== userid) {return res.status(422).send('Não foi possível encontrar esta compra na sua conta!')};
+      if (purchaseInfo.userid !== userid) {return res.status(422).send('Não foi possível encontrar esta compra na sua conta!')};
       res.status(200).send(purchaseInfo);
     } catch (error) {
       console.error(error);
