@@ -1,8 +1,9 @@
 import db from "../db/db.js";
 import { ObjectId } from "mongodb";
+import dayjs from "dayjs";
 
 export async function confirmCheckout(req, res) {
-    const { paymentForm, products } = req.body;
+    const { paymentMethod, products } = req.body;
     const { authorization, userid } = req.headers;
     const token = authorization?.replace('Bearer ', '');
 
@@ -13,12 +14,17 @@ export async function confirmCheckout(req, res) {
     if (loggedIn === null) {return res.status(422).send('Você precisa estar logado para conferir a sua compra!')};
 
     try {
-      await db.collection("sales").insertOne({
+      const sale = await db.collection("sales").insertOne({
         userid,
-        paymentForm,
-        products
+        paymentMethod,
+        products,
+        date: dayjs().format('DD/MM/YYYY')
+      }, (err, result) => {
+        if (err) 
+          return err;
+        else 
+          return result.insertedId.toString();
       });
-      res.sendStatus(201);
     } catch (error) {
       console.error(error);
       res.sendStatus(500);
