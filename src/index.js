@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import db from "./db/db.js";
 import userRouter from "./routes/userRouter.js";
 import saleRouter from "./routes/saleRouter.js";
+import cartRouter from "./routes/cartRouter.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use(userRouter);
+server.use(cartRouter);
 server.use(saleRouter);
 
 async function checkSessions() {
