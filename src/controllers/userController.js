@@ -12,11 +12,7 @@ export async function signUp(req, res) {
     if (!user) {
       return res.sendStatus(409);
     }
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> dcc6a962956d6eec03ec2046da365a868d16ce2c
     const createUser = await db.collection("users").insertOne(
       {
         name,
@@ -33,11 +29,6 @@ export async function signUp(req, res) {
         }
       }
     );
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> dcc6a962956d6eec03ec2046da365a868d16ce2c
     res.sendStatus(201);
   } catch (error) {
     console.error(error);
