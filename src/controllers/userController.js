@@ -30,12 +30,14 @@ export async function createToken(req, res) {
 
   try {
     const user = await db.collection("users").findOne({ email });
-    //const passwordCheck = bcrypt.compareSync(password, user.password);
+    const passwordCheck = bcrypt.compareSync(password, user.password);
 
-    if (user /* && passwordCheck */) {
+    if (user && passwordCheck) {
       const session = await db
         .collection("sessions")
         .findOne({ userId: user._id });
+
+      await db.collection('cart').insertOne({ userId: user._id });
 
       if (session) {
         res.status(200).send({
