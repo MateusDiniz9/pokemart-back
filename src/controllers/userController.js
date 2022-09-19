@@ -8,16 +8,18 @@ export async function signUp(req, res) {
   const encryptedPassword = bcrypt.hashSync(password, 12);
 
   try {
-    const user = db.collection("users").findOne({ email });
+    const user = await db.collection("users").findOne({ email });
     if (!user) {
       return res.sendStatus(409);
     }
 
-    db.collection("users").insertOne({
+    const createUser = await db.collection("users").insertOne({
       name,
       email,
       password: encryptedPassword,
     });
+
+    await db.collection("cart").insertOne({ userId: createUser._id });
     res.sendStatus(201);
   } catch (error) {
     console.error(error);
@@ -36,8 +38,6 @@ export async function createToken(req, res) {
       const session = await db
         .collection("sessions")
         .findOne({ userId: user._id });
-
-      await db.collection('cart').insertOne({ userId: user._id });
 
       if (session) {
         res.status(200).send({
