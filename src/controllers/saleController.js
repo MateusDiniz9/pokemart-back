@@ -23,6 +23,7 @@ export async function confirmCheckout(req, res) {
         if (err) 
           return res.status(500).send(console.error(err));
         else 
+          db.collection('cart').deleteOne({ userId: userid });
           return res.status(201).send(result.insertedId.toString());
       });
     } catch (error) {
