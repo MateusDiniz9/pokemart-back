@@ -6,9 +6,10 @@ export async function signUp(req, res) {
   const { name, email, password } = res.locals.signup;
 
   const encryptedPassword = bcrypt.hashSync(password, 12);
+
   try {
     const user = db.collection("users").findOne({ email });
-    if (user) {
+    if (!user) {
       return res.sendStatus(409);
     }
 

@@ -5,7 +5,7 @@ import db from "./db/db.js";
 import userRouter from "./routes/userRouter.js";
 import saleRouter from "./routes/saleRouter.js";
 import cartRouter from "./routes/cartRouter.js";
-
+import productsRouter from "./routes/productsRouter.js";
 dotenv.config();
 
 const server = express();
@@ -15,6 +15,8 @@ server.use(express.json());
 server.use(userRouter);
 server.use(cartRouter);
 server.use(saleRouter);
+server.use(productsRouter);
+
 
 async function checkSessions() {
   const timeAllowed = 7.2e6; //2 hours
@@ -36,6 +38,6 @@ async function checkSessions() {
 
 setInterval(checkSessions, 60000); //checks every minute
 
-server.listen(process.env.PORT_API, () => {
-  console.log(`Listening on port ${process.env.PORT_API}`);
+server.listen(process.env.PORT, () => {
+  console.log(`Listening on port ${process.env.PORT}`);
 });
