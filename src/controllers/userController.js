@@ -13,13 +13,23 @@ export async function signUp(req, res) {
       return res.sendStatus(409);
     }
 
-    const createUser = await db.collection("users").insertOne({
-      name,
-      email,
-      password: encryptedPassword,
-    });
+    const createUser = await db.collection("users").insertOne(
+      {
+        name,
+        email,
+        password: encryptedPassword,
+      },
+      (err, result) => {
+        if (err) {
+          return res.status(500).send(console.error(err));
+        } else {
+          db.collection("cart").insertOne({
+            userId: result.insertedId.toString(),
+          });
+        }
+      }
+    );
 
-    await db.collection("cart").insertOne({ userId: createUser._id });
     res.sendStatus(201);
   } catch (error) {
     console.error(error);
