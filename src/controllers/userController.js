@@ -8,27 +8,17 @@ export async function signUp(req, res) {
   const encryptedPassword = bcrypt.hashSync(password, 12);
 
   try {
-    const user = await db.collection("users").findOne({ email });
+    const user = db.collection("users").findOne({ email });
     if (!user) {
       return res.sendStatus(409);
     }
 
-    const createUser = await db.collection("users").insertOne(
-      {
-        name,
-        email,
-        password: encryptedPassword,
-      },
-      (err, result) => {
-        if (err) {
-          return res.status(500).send(console.error(err));
-        } else {
-          db.collection("cart").insertOne({
-            userId: result.insertedId.toString(),
-          });
-        }
-      }
-    );
+    db.collection("users").insertOne({
+      name,
+      email,
+      password: encryptedPassword,
+    });
+
     res.sendStatus(201);
   } catch (error) {
     console.error(error);
